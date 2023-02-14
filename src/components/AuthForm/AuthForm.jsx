@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthFormWrapper, Button } from './AuthForm.style';
-import { signInApi } from '../../apis/auth';
+import { signInApi, signUpApi } from '../../apis/auth';
 import InputItem from '../common/InputItem/InputItem';
 import useApi from './../../hooks/useApi';
 import ErrorMessage from './../common/ErrorMessage/ErrorMessage';
 
-const AuthForm = () => {
+const AuthForm = ({ type }) => {
   const [formValue, setFormValue] = useState({ email: '', password: '' });
-  const [{ data, error }, callSignInApi] = useApi(signInApi, [], true);
+
+  const [{ data, error }, callAuthApi] = useApi(type === 'signin' ? signInApi : signUpApi, [], true);
 
   const navigate = useNavigate();
 
@@ -25,14 +26,20 @@ const AuthForm = () => {
     const email = formValue.email;
     const password = formValue.password;
 
-    callSignInApi(email, password);
+    callAuthApi(email, password);
   };
 
   useEffect(() => {
     if (!data) return;
 
-    localStorage.setItem('access_token', data.access_token);
-    navigate('/todo');
+    if (type === 'signin') {
+      localStorage.setItem('access_token', data.access_token);
+      navigate('/todo');
+    }
+
+    if (type === 'signup') {
+      navigate('/signin');
+    }
   }, [data]);
 
   return (
@@ -54,11 +61,11 @@ const AuthForm = () => {
         id='password'
       />
 
-      <Button type='submit' disabled={checkValid} data-testid={`signin-button`}>
-        로그인
+      <Button type='submit' disabled={checkValid} data-testid={`${type}-button`}>
+        {type === 'signin' ? '로그인' : '회원가입'}
       </Button>
 
-      <ErrorMessage>{error && '로그인에 실패했습니다.'}</ErrorMessage>
+      <ErrorMessage>{error && `${type === 'signin' ? '로그인' : '회원가입'}에 실패했습니다.`}</ErrorMessage>
     </AuthFormWrapper>
   );
 };

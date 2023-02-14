@@ -6,7 +6,7 @@ const SignInPage = () => {
   return (
     <MainContainerWrapper>
       <h1>로그인</h1>
-      <AuthForm />
+      <AuthForm type='signin' />
       <Linked to='/signup'>회원가입 페이지로 이동</Linked>
     </MainContainerWrapper>
   );
