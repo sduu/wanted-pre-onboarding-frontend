@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthFormWrapper, Button } from './AuthForm.style';
 import { signInApi, signUpApi } from '../../apis/auth';
@@ -14,10 +14,6 @@ const AuthForm = ({ type }) => {
   const navigate = useNavigate();
 
   const checkValid = !(value.email.includes('@') && value.password.length >= 8);
-
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
 
   const onSubmitHandler = async e => {
     e.preventDefault();

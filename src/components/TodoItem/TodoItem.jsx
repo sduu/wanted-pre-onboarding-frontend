@@ -26,7 +26,6 @@ const TodoItem = ({ todoData }) => {
   const onSubmitHandler = async e => {
     e.preventDefault();
 
-    console.log(updatedTodo);
     const response = await callUpdateTodoApi(id, textValue, isChecked);
 
     if (response) {
@@ -38,10 +37,7 @@ const TodoItem = ({ todoData }) => {
   const deleteHandler = async () => {
     const response = await callDeleteTodoApi(id);
 
-    if (response) {
-      console.log('del');
-      deleteTodo(id);
-    }
+    if (response) deleteTodo(id);
   };
 
   useEffect(() => {
