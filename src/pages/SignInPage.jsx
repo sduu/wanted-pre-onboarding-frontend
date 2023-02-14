@@ -1,5 +1,7 @@
+import { MainContainerWrapper } from '../components/common/MainContainer/MainContainer.style';
+
 const SignInPage = () => {
-  return <main>SignInPage</main>;
+  return <MainContainerWrapper>SignInPage</MainContainerWrapper>;
 };
 
 export default SignInPage;

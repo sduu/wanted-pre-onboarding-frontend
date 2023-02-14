@@ -1,5 +1,7 @@
+import { MainContainerWrapper } from '../components/common/MainContainer/MainContainer.style';
+
 const NotFoundPage = () => {
-  return <main>NotFoundPage</main>;
+  return <MainContainerWrapper>NotFoundPage</MainContainerWrapper>;
 };
 
 export default NotFoundPage;

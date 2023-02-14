@@ -1,5 +1,7 @@
+import { MainContainerWrapper } from '../components/common/MainContainer/MainContainer.style';
+
 const TodoPage = () => {
-  return <main>TodoPage</main>;
+  return <MainContainerWrapper>TodoPage</MainContainerWrapper>;
 };
 
 export default TodoPage;
