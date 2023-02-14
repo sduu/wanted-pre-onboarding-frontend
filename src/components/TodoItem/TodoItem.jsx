@@ -1,12 +1,15 @@
 import { useRef, useState, useEffect } from 'react';
 import { Button, Label, Span, Input, TodoItemWrapper } from './TodoItem.style';
 import InputItem from '../common/InputItem/InputItem';
+import useInput from '../../hooks/useInput';
 
 const TodoItem = ({ todoData }) => {
-  const { todo } = todoData;
+  const { todo, isCompleted } = todoData;
 
   const [isEdit, setIsEdit] = useState(false);
   const textInputRef = useRef();
+  const [textValue, updateTextValue] = useInput(todo);
+  const [isChecked, toggleIsChecked] = useInput(isCompleted);
 
   const toggleIsEdit = () => {
     setIsEdit(prev => !prev);
@@ -22,8 +25,8 @@ const TodoItem = ({ todoData }) => {
     <TodoItemWrapper>
       {isEdit ? (
         <>
-          <Input type='checkbox' />
-          <InputItem type='text' id='modify' inputRef={textInputRef} />
+          <Input type='checkbox' onChange={toggleIsChecked} checked={isChecked} />
+          <InputItem type='text' value={textValue} onChange={updateTextValue} id='modify' inputRef={textInputRef} />
           <Button data-testid='submit-button'>제출</Button>
           <Button onClick={toggleIsEdit} data-testid='cancel-button'>
             취소
@@ -32,7 +35,7 @@ const TodoItem = ({ todoData }) => {
       ) : (
         <>
           <Label>
-            <Input type='checkbox' />
+            <Input type='checkbox' onChange={toggleIsChecked} checked={isChecked} />
             <Span>{todo}</Span>
           </Label>
           <Button onClick={toggleIsEdit} data-testid='modify-button'>
