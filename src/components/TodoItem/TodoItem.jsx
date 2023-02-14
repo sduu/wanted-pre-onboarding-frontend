@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Button, Label, Span, Input, TodoItemWrapper } from './TodoItem.style';
 import { useTodoContext } from '../../context/todoContext';
-import { updateTodoApi } from '../../apis/todo';
+import { updateTodoApi, deleteTodoApi } from '../../apis/todo';
 import InputItem from '../common/InputItem/InputItem';
 import useInput from '../../hooks/useInput';
 import useApi from '../../hooks/useApi';
@@ -9,9 +9,10 @@ import useApi from '../../hooks/useApi';
 const TodoItem = ({ todoData }) => {
   const { id, todo, isCompleted } = todoData;
 
-  const { updateTodo } = useTodoContext();
+  const { updateTodo, deleteTodo } = useTodoContext();
 
   const [{ data: updatedTodo }, callUpdateTodoApi] = useApi(updateTodoApi, [], true);
+  const [{ data: deletedTodo }, callDeleteTodoApi] = useApi(deleteTodoApi, [], true);
 
   const [isEdit, setIsEdit] = useState(false);
   const textInputRef = useRef();
@@ -31,6 +32,15 @@ const TodoItem = ({ todoData }) => {
     if (response) {
       updateTodo({ id, todo: textValue, isCompleted: isChecked });
       toggleIsEdit();
+    }
+  };
+
+  const deleteHandler = async () => {
+    const response = await callDeleteTodoApi(id);
+
+    if (response) {
+      console.log('del');
+      deleteTodo(id);
     }
   };
 
@@ -68,7 +78,9 @@ const TodoItem = ({ todoData }) => {
           <Button onClick={toggleIsEdit} data-testid='modify-button'>
             수정
           </Button>
-          <Button data-testid='delete-button'>삭제</Button>
+          <Button onClick={deleteHandler} data-testid='delete-button'>
+            삭제
+          </Button>
         </>
       )}
     </TodoItemWrapper>
