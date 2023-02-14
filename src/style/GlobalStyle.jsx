@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     --primary: #B1624E;
     --primary-disabled: #bba29c;
     --secondary: #5CC8D7;
+    --error: #f35d5d;
     --background: #a7c3c7;
 
     --border-radius: 8px;
