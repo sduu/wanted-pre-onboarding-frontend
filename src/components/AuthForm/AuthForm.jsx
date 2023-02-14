@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthFormWrapper, Button } from './AuthForm.style';
 import { signInApi } from '../../apis/auth';
 import InputItem from '../common/InputItem/InputItem';
+import useApi from './../../hooks/useApi';
+import ErrorMessage from './../common/ErrorMessage/ErrorMessage';
 
 const AuthForm = () => {
   const [formValue, setFormValue] = useState({ email: '', password: '' });
+  const [{ data, error }, callSignInApi] = useApi(signInApi, [], true);
 
   const navigate = useNavigate();
 
@@ -22,13 +25,15 @@ const AuthForm = () => {
     const email = formValue.email;
     const password = formValue.password;
 
-    const response = await signInApi(email, password);
-
-    if (response.status === 200) {
-      localStorage.setItem('access_token', response.data.access_token);
-      navigate('/todo');
-    }
+    callSignInApi(email, password);
   };
+
+  useEffect(() => {
+    if (!data) return;
+
+    localStorage.setItem('access_token', data.access_token);
+    navigate('/todo');
+  }, [data]);
 
   return (
     <AuthFormWrapper onSubmit={onSubmitHandler}>
@@ -52,6 +57,8 @@ const AuthForm = () => {
       <Button type='submit' disabled={checkValid} data-testid={`signin-button`}>
         로그인
       </Button>
+
+      <ErrorMessage>{error && '로그인에 실패했습니다.'}</ErrorMessage>
     </AuthFormWrapper>
   );
 };
