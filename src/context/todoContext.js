@@ -4,7 +4,7 @@ import useTodo from '../hooks/useTodo';
 const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
-  const { todos, setTodos, addTodo, updateTodo, deleteTodo } = useTodo([]);
+  const [{ setTodos, addTodo, updateTodo, deleteTodo }, todos] = useTodo([]);
 
   const value = { todos, setTodos, addTodo, updateTodo, deleteTodo };
 
