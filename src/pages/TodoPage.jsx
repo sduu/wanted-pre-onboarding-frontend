@@ -1,7 +1,15 @@
-import { MainContainerWrapper } from '../components/common/MainContainer/MainContainer.style';
+import MainContainer from './../components/common/MainContainer/MainContainer';
+import TodoInput from './../components/TodoInput/TodoInput';
+import TodoList from './../components/TodoList/TodoList';
 
 const TodoPage = () => {
-  return <MainContainerWrapper>TodoPage</MainContainerWrapper>;
+  return (
+    <MainContainer>
+      <h1>TO DO LIST</h1>
+      <TodoInput />
+      <TodoList />
+    </MainContainer>
+  );
 };
 
 export default TodoPage;
